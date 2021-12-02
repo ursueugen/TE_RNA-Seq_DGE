@@ -17,7 +17,7 @@ get_tx2gene <- function() {
 get_comparisons_table <- function() {
   return(
     read.table(
-      "TE_Datasets_Aging_Comparisons.tsv",
+      "TE_Datasets_Aging_Comparisons_adjusted.tsv",
       header = TRUE,
       sep = "\t",
       stringsAsFactors = FALSE
@@ -30,6 +30,8 @@ get_salmon_filepath <- function(gse, gsm) {
   
   if (gse == "GSE106669") {
     gse_adjusted = "GSE106669_GSE106670"
+  } else if (gse == "GSE51518") {
+    gse_adjusted = "GSE51518_GSE51519"
   } else {
     gse_adjusted = gse
   }
@@ -56,7 +58,7 @@ SAMPLES_BASE_PATH = "/home/rstudio/samples"
 TX2GENE_PATH = "/home/rstudio/ensembl/101/species/Homo_sapiens/tx2gene_human.tsv"
 
 # MAIN
-GSE = "GSE106669"  # GSE39170 GSE106669
+GSE = "GSE51518"  # GSE39170 GSE106669 GSE51519
 
 comparisons = get_comparisons_table()
 comparisons = comparisons[comparisons$GSE == GSE,]
@@ -100,6 +102,7 @@ for (i in 1:nrow(comparisons)) {
   write.table(
     res,
     file = paste0(
+      "comparisons_results/",
       GSE,
       "_favorable-",
       title_favorable,
